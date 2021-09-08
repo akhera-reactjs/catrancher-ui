@@ -1,0 +1,12 @@
+.cat-item {
+    border-radius: 1rem;
+    margin: .5rem;
+    &.selected {
+        background: gray;
+    }
+}
+
+.img-thumbnail {
+    width: 80px;
+    height: 80px;
+}

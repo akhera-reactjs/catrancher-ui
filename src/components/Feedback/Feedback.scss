@@ -1,0 +1,16 @@
+.feedback-container {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    width: 200px;
+    background: gray;
+    padding: 10px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: row;
+    .feedback-button {
+        margin-top: 50px;
+        justify-self: flex-end;
+        background-color: aqua;
+    }
+}

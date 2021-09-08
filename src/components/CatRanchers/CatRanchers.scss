@@ -1,0 +1,40 @@
+.catranchers-page {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-content: center;
+    margin: 10% 20%;
+
+}
+.cats-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 360px;
+    align-self: flex-start;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 200px;
+    max-width: 200px;
+}
+
+.cat-item {
+    margin-left: 10px;
+}
+
+.results-item {
+    padding: 32px;
+    border: 1px solid gray;
+    text-align: center;
+  }
+
+.img-thumbnail {
+    width: 80px;
+    height: 80px;
+}
+
+
