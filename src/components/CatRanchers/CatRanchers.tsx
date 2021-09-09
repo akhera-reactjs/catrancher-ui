@@ -22,16 +22,52 @@ import Feedback from '../Feedback';
 import CatResultList from '../CatResultList';
 import {getCats,checkValidSelection} from '../../datasource/service'
 //import getCats from '../../service' //Manual
+
+  
+ type Stripes = 1|2|3;
+
+ type Colors = 'b' | 'w' | 't';
+
+ type Shapes = 't' | 's' | 'r';
+
+ type Eyes = 'g' | 'b' | 'r';
+
+interface CatDetails {
+    id: string,
+    stripes: Stripes,
+    color: Colors,
+    shape: Shapes,
+    eyes: Eyes, 
+    image: string
+}
 const CatRanchers = () => {
-    const [cats, setCats] = useState([{id: '', image:''}]);
+    const [cats, setCats] = useState<Array<CatDetails> | any>([]);
     const [selectedCats, setSelectedCats] =  useState<string[]>([]);
     const [feedback, setFeedback] =  useState<any | null>();
     const [result, setResult] = useState<string[]>([])
 
     const isValidSelection =  (selectedCats: any) =>{
        // const response = await checkValidSelection(selectedCats);
-        const response = {valid: true};
-        return response.valid;
+        let catDetails: Array<CatDetails> = [];
+        selectedCats.forEach((catId: string) => {
+             catDetails.push(cats.filter((cat: CatDetails) => cat.id === catId));
+        });
+        
+        console.log('catDetails', catDetails);
+
+        if((catDetails[0].shape === catDetails[1].shape) && (catDetails[1].shape !== catDetails[2].shape)) {
+          return false;
+        }
+
+        if((catDetails[0].color === catDetails[1].color) && (catDetails[1].color !== catDetails[2].color)) {
+            return false;
+          }
+        if((catDetails[0].eyes === catDetails[1].eyes) && (catDetails[1].eyes !== catDetails[2].eyes)) {
+            return false;
+        }
+   
+
+        return true;
     }
 
     useEffect(() => {
@@ -48,31 +84,8 @@ const CatRanchers = () => {
       }, []);
 
 
-    // useEffect(() => {
-    //     if (selectedCats.length > 3 ) {
-    //         setFeedback({message:'You need to  selected exactly 3 cats'});
-    //     }
-    //     if(selectedCats.length === 3) {
-    //         console.log(isValidSelection(selectedCats));
-    //         setFeedback(null);
-    //         if(isValidSelection(selectedCats)) {
-    //             selectedCats.forEach((id) => {
-    //                 if(!result.includes(id)) {
-    //                     setResult([...result,id])
-    //                     setFeedback({ essage: 'Congratulations! These cats get along.' })    
-    //                 } else {
-    //                     setFeedback({ message: 'This clowder set already exists.' })
-    //                 }
-    //             } );    
-    //     } else {
-    //         setFeedback({  message: 'Oops! The cats dont get along.' })
-    //     }
-    // }
-    // }, [selectedCats])
-
     useEffect(() => {
         if (selectedCats.length === 3) {
-                setFeedback(null)
                 if (isValidSelection(selectedCats)) {
                     let isExisting = false;
                     let resultArr = result;
@@ -86,7 +99,7 @@ const CatRanchers = () => {
                     
                     if(!isExisting) {
                         setResult(resultArr);
-                        setFeedback({ heading: 'Congratulations!', message: 'These cats get along.' })    
+                        setFeedback({ message: 'Congratulations! These cats get along.' })    
                     } else {
                         selectedCats.forEach((catId) => {
                             const index = result.indexOf(catId);
@@ -96,16 +109,14 @@ const CatRanchers = () => {
                                 setResult(newArr);
                             }
                         });
-                        setFeedback({  message: 'This clowder set already exists.' })
+                        setFeedback({  message: 'Some of these cats already exists.' })
                     }
                     setSelectedCats([])
                 } else {
-                    setSelectedCats([...selectedCats.slice(0, -1)])
+                    setSelectedCats([])
                     setFeedback({  message: 'These cats do not get along.' })
                 }
-        } else {
-            setFeedback({  message: 'Select only 3 cats.' })
-        }
+        } 
     }, [selectedCats])
     const onCatClick= (id: string) => {
         if (!selectedCats.includes(id)) {
@@ -115,6 +126,7 @@ const CatRanchers = () => {
         }
     }
 
+    console.log(result);
     
     return( 
        <div className="catranchers-page">

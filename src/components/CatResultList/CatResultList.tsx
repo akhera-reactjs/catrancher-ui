@@ -10,13 +10,14 @@ const CatResultList: React.FC<CatResultProps> = ({result}) => {
             finalArray[i] = result[i]
         }
     }
+    console.log('final array', finalArray)
 
     return (
         
     
     <div className="results-container">
         {finalArray.map((cat) => 
-               <div className="results-item">
+               <div className="results-item" >
                    {cat ? <img className="result-item" src={`http://quantcats.herokuapp.com/static/cats/${cat}.png`}/>:
                    <div className="result-item"/>}
                 </div>)
